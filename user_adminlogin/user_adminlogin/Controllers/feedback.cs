@@ -9,7 +9,6 @@ namespace Flight_dbproject.Controllers
     {
         public IActionResult Index()
         {
-            int khodor = 0;
             return View();
         }
     }
