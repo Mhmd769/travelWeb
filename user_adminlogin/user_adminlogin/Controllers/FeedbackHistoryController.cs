@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace user_adminlogin.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    public class InventoryController : Controller
+    public class FeedbackHistoryController : Controller
     {
-        public IActionResult GetAll()
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult Index()
         {
-            // Your action method logic here
             return View();
         }
     }
-
 }

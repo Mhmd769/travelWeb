@@ -7,6 +7,7 @@ namespace Flight_dbproject.Controllers
 {
     [Authorize]
 
+
     public class BooktripController : Controller
     {
         public BooktripController()

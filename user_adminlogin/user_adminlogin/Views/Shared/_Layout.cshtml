@@ -40,25 +40,41 @@
                                     <a class="nav-link " asp-controller="Home" asp-action="Index">Home</a>
                                     <span class="sr-only">(current)</span>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " asp-controller="Booktrip" asp-action="Index"> Book Trip</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " asp-controller="Package" asp-action="Index">Package</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " asp-controller="feedback" asp-action="Index">Feedback</a>
-                                </li>
-                                @if (User.Identity.IsAuthenticated)
+                                @if (User.IsInRole("User"))
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Product" asp-action="GetAll">Products</a>
+                                        <a class="nav-link " asp-controller="Booktrip" asp-action="Index"> Book Trip</a>
+                                    </li>
+                                }
+                                @if (User.IsInRole("User"))
+                                {
+
+                                    <li class="nav-item">
+                                        <a class="nav-link " asp-controller="Package" asp-action="Index">Package</a>
+                                    </li>
+                                }
+                                @if (User.IsInRole("User"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link " asp-controller="feedback" asp-action="Index">Feedback</a>
                                     </li>
                                 }
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <li class="nav-item" >
-                                        <a class="nav-link " asp-area="" asp-controller="Inventory" asp-action="GetAll">Inventory</a>
+                                        <a class="nav-link " asp-area="" asp-controller="AdminPackage" asp-action="Index">AdminPackage</a>
+                                    </li>
+                                }
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link " asp-area="" asp-controller="FlightHistory" asp-action="Index">FlightHistory</a>
+                                    </li>
+                                }
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link " asp-area="" asp-controller="FeedbackHistory" asp-action="Index">FeedbackHistory</a>
                                     </li>
                                 }
                             <partial name="_LoginPartial" />

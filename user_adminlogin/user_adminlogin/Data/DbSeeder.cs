@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using user_adminlogin.Constant;
-using user_adminlogin.Data;
 
 namespace user_adminlogin.Data
 {

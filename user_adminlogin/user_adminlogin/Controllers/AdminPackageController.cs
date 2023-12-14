@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace user_adminlogin.Controllers
 {
-    [Authorize]
-    public class ProductController : Controller
+    public class AdminPackageController : Controller
     {
-        public IActionResult GetAll()
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult Index()
         {
             return View();
         }
