@@ -1,0 +1,36 @@
+﻿@model Package
+
+@{
+    ViewData["Title"] = "Add Package";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+
+    <h2 class="text-white">@ViewData["Title"]</h2>
+
+    <form asp-action="DeletePackage" method="post">
+        <input asp-for="Id" hidden value="@Model.Id" />
+        <div class="form-group">
+            <label asp-for="FlightId" class="control-label text-white">Flight ID</label>
+            <input asp-for="FlightId"disabled class="form-control" value="@Model.FlightId" />
+            <span asp-validation-for="FlightId" class="text-white"></span>
+        </div>
+
+        <div class="form-group">
+
+            <label asp-for="Package_details" class="control-label text-white">Package Details</label>
+            <input asp-for="Package_details" disabled class="form-control" value="@Model.Package_details" />
+            <span asp-validation-for="Package_details" class="text-white"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price" class="control-label text-white">Price</label>
+            <input asp-for="Price" class="form-control" disabled value="@Model.Price" />
+            <span asp-validation-for="Price" class="text-white"></span>
+        </div>
+
+        <button type="submit" class="btn btn-danger">Delete Package</button>
+    </form>
+</div>

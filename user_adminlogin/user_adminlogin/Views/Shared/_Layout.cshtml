@@ -61,6 +61,12 @@
                                 }
                                 @if (User.IsInRole("Admin"))
                                 {
+                                    <li class="nav-item">
+                                        <a class="nav-link " asp-area="" asp-controller="AddFlight" asp-action="Index">Flights</a>
+                                    </li>
+                                }
+                                @if (User.IsInRole("Admin"))
+                                {
                                     <li class="nav-item" >
                                         <a class="nav-link " asp-area="" asp-controller="AdminPackage" asp-action="Index">AdminPackage</a>
                                     </li>

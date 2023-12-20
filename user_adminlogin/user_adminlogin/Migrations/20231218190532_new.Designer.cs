@@ -12,8 +12,8 @@ using user_adminlogin.Data;
 namespace user_adminlogin.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231209121217_First")]
-    partial class First
+    [Migration("20231218190532_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,9 +236,6 @@ namespace user_adminlogin.Migrations
                     b.Property<int>("FlightId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("BookDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("UserId", "FlightId");
 
                     b.HasIndex("FlightId");
@@ -289,9 +286,6 @@ namespace user_adminlogin.Migrations
                     b.Property<string>("Arrival_time")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Booked_people")
-                        .HasColumnType("int");
-
                     b.Property<string>("Departure")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -302,11 +296,12 @@ namespace user_adminlogin.Migrations
 
                     b.Property<string>("Destenation")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("flight_Name")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<int?>("Seat_number")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("flight_date")
                         .HasColumnType("datetime2");

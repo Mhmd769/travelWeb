@@ -9,16 +9,15 @@ namespace user_adminlogin.Models
         public int Id { get; set; }
         [Required]
         [StringLength(256)]
+        public string flight_Name { get; set; }
         public string Destenation { get; set; }
         [Required]
         [StringLength(256)]
         public string Departure { get; set; }
         public string? Arrival_time { get; set; }
         public string? Departure_time { get; set; }
-        public int? Seat_number { get; set; }
-        [DataType(DataType.Date)]
+
         public DateTime? flight_date { get; set; }
-        public int? Booked_people { get; set; }
 
         // Navigation property for the one-to-many relationship
         public List<Package> Packages { get; set; }

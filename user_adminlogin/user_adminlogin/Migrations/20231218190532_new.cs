@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace user_adminlogin.Migrations
 {
-    public partial class First : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,13 +56,12 @@ namespace user_adminlogin.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Destenation = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    flight_Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Destenation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Departure = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Arrival_time = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Departure_time = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Seat_number = table.Column<int>(type: "int", nullable: true),
-                    flight_date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Booked_people = table.Column<int>(type: "int", nullable: true)
+                    flight_date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -180,8 +179,7 @@ namespace user_adminlogin.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FlightId = table.Column<int>(type: "int", nullable: false),
-                    BookDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FlightId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

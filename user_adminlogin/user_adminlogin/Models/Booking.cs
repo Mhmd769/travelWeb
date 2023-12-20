@@ -10,6 +10,5 @@ namespace user_adminlogin.Models
         public int FlightId { get; set; }
         public Flight Flight { get; set; }
         
-        public DateTime BookDate { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace user_adminlogin.Models
 
         // Navigation property for the one-to-many relationship
         public int FlightId { get; set; }
-        public Flight Flight { get; set; }
+        public Flight? Flight { get; set; }
 
     }
 }
