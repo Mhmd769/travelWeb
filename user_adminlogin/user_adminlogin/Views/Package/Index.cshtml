@@ -1,150 +1,63 @@
-﻿
-<section class="package_section" id="package">
+﻿@model List<Package>
 
-    <div class="container">
-        <div class="heading_container">
-            <h2>
-                Our Packages
-            </h2>
-            <p>
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-            </p>
-        </div>
-    </div>
+<section class="package_section" id="package">
     <div class="container">
         <div class="box container-bgpack">
-            <div class="detail-container">
-                <div class="detail-box">
-                    <h4>
-                        Basic Rate
-                    </h4>
-                    <h2>
-                        <span>$</span>200
-                    </h2>
-                    <ul>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            adipiscing elit, sed do
-                        </li>
-                        <li>
-                            eiusmod tempor
-                        </li>
-                    </ul>
-                    <a href="">
-                        Book Now
-                    </a>
-                </div>
-                <div class="detail-box">
-                    <h4>
-                        Special Rate
-                    </h4>
-                    <h2>
-                        <span>$</span>300
-                    </h2>
-                    <ul>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            adipiscing elit, sed do
-                        </li>
-                        <li>
-                            eiusmod tempor
-                        </li>
-                    </ul>
-                    <a href="">
-                        Book Now
-                    </a>
-                </div>
-                <div class="detail-box">
-                    <h4>
-                        Special Rate
-                    </h4>
-                    <h2>
-                        <span>$</span>300
-                    </h2>
-                    <ul>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            adipiscing elit, sed do
-                        </li>
-                        <li>
-                            eiusmod tempor
-                        </li>
-                    </ul>
-                    <a href="">
-                        Book Now
-                    </a>
-                </div>
-                <div class="detail-box">
-                    <h4>
-                        Special Rate
-                    </h4>
-                    <h2>
-                        <span>$</span>300
-                    </h2>
-                    <ul>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            adipiscing elit, sed do
-                        </li>
-                        <li>
-                            eiusmod tempor
-                        </li>
-                    </ul>
-                    <a href="">
-                        Book Now
-                    </a>
-                </div>
-                <div class="detail-box">
-                    <h4>
-                        Special Rate
-                    </h4>
-                    <h2>
-                        <span>$</span>300
-                    </h2>
-                    <ul>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            Lorem ipsum dolor sit
-                        </li>
-                        <li>
-                            adipiscing elit, sed do
-                        </li>
-                        <li>
-                            eiusmod tempor
-                        </li>
-                    </ul>
-                    <a href="">
-                        Book Now
-                    </a>
-                </div>
-            </div>
-            <div class="btn-box">
-                <a href="">
-                    See More
-                </a>
-            </div>
+            <h2>OUR PACKAGES</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Package Details</th>
+                        <th>Flight</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var package in Model)
+                    {
+                        <tr>
+                            <td>@package.Package_details</td>
+                            <td>@package.Flight?.flight_Name</td>
+                            <td>$@package.Price</td>
+                            <td><a href="#" class="btn-book">Book Now</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </section>
+
+<style>
+    /* Your CSS styling remains the same */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    .btn-book {
+        display: inline-block;
+        padding: 10px 20px;
+        background:blue;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-book:hover {
+            background-color: #333;
+        }
+</style>

@@ -21,15 +21,18 @@ namespace user_adminlogin.Controllers
 
         public IActionResult Index()
         {
-            var packages = _context.Packages.ToList();
+            var packages = _context.Packages.FromSqlRaw("SELECT * FROM Packages").ToList();
             return View(packages);
         }
+
+
         [HttpGet]
         public IActionResult AddPackage()
         {
-            ViewData["Flights"] = new SelectList(_context.Flights.Select(f => new { Id = f.Id, Name = f.flight_Name}).ToList(), "Id", "Name");
+            ViewData["Flights"] = new SelectList(_context.Flights.Select(f => new { Id = f.Id, Name = f.flight_Name }).ToList(), "Id", "Name");
             return View();
         }
+
         [HttpPost]
         public IActionResult AddPackage(Package package)
         {
@@ -37,8 +40,7 @@ namespace user_adminlogin.Controllers
             {
                 try
                 {
-                    _context.Packages.Add(package);
-                    _context.SaveChanges();
+                    _context.Database.ExecuteSqlInterpolated($"INSERT INTO Packages (Package_details, Price, FlightId) VALUES ({package.Package_details}, {package.Price}, {package.FlightId})");
 
                     return RedirectToAction("Index");
                 }
@@ -51,10 +53,9 @@ namespace user_adminlogin.Controllers
             }
 
             // If ModelState is not valid, return back to the form with validation errors
-            ViewData["FlightIds"] = new SelectList(_context.Flights.Select(f => f.Id).ToList()); // Retrieve flight ids again for the dropdown
+            ViewData["FlightIds"] = new SelectList(_context.Flights.Select(f => f.Id).ToList(), "Id", "flight_Name");
             return View(package);
         }
-
 
         [HttpGet]
         public IActionResult UpdatePackage(int id)
@@ -75,8 +76,7 @@ namespace user_adminlogin.Controllers
             {
                 try
                 {
-                    _context.Packages.Update(package);
-                    _context.SaveChanges();
+                    _context.Database.ExecuteSqlInterpolated($"UPDATE Packages SET Package_details = {package.Package_details}, Price = {package.Price}, FlightId = {package.FlightId} WHERE Id = {package.Id}");
 
                     return RedirectToAction("Index");
                 }
@@ -114,14 +114,18 @@ namespace user_adminlogin.Controllers
                 return NotFound();
             }
 
-            _context.Packages.Remove(packagetoDelete);
-            _context.SaveChanges();
+            try
+            {
+                _context.Database.ExecuteSqlInterpolated($"DELETE FROM Packages WHERE Id = {package.Id}");
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                // For now, let's return an error view with the exception details
+                return RedirectToAction("Index");
+            }
         }
-
-
     }
-
-
 }
