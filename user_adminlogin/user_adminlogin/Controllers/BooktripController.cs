@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Net.Security;
 using System.Security.Claims;
 using user_adminlogin.Data;
 using user_adminlogin.Models;
@@ -22,39 +23,65 @@ namespace Flight_dbproject.Controllers
         }
         public IActionResult Index()
         {
-
-            return View();
+            var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var booked = from b in _db.Bookings
+                        where b.UserId == uId
+                        select b.Flight;
+            var flight = from row in _db.Flights
+                           select row;
+            IEnumerable<Flight> flightList = flight.Except(booked).ToList();
+            return View(flightList);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Index(Flight flight)
+        public async Task<IActionResult> bookNow(int id)
         {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            ApplicationUser user = await _userManager.FindByIdAsync(id);
-            /* ApplicationUser user = from _userManager
-                         where Id = id
-                         select * ;*/
-            var booking = new Booking
+            var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var exist = from b in _db.Bookings
+                        where b.FlightId == id && b.UserId == uId
+                        select b;
+            if (exist.Any())
             {
-                UserId = id,
-                User = user,
-                FlightId = flight.Id,
-                Flight = flight,
-            };
-            _db.Bookings.Add(booking);
-            _db.Flights.Add(flight);
-            _db.SaveChanges();
-            return View();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(uId);
+                /* var flight = from f in _db.Flights
+                                 where f.Id == flightId
+                                 select f;*/
+                var flight = _db.Flights.Find(id);
+                var booking = new Booking
+                {
+                    UserId = uId,
+                    User = user,
+                    FlightId = id,
+                    Flight = flight
+                };
+                _db.Bookings.Add(booking);
+                _db.SaveChanges();
+                return RedirectToAction("bookingList");
+            }
         }
-
         public ActionResult bookingList()
         {
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
+           var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var bookings = from row in _db.Bookings
                            where row.UserId == id
-                           select row;
-            List<Booking> bookingList = bookings.ToList();
+                           select row.Flight;
+            List<Flight> bookingList = bookings.ToList();
             return View(bookingList);
+        }
+        public ActionResult cancelFlight(int id)
+        {
+            var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var booking = _db.Bookings.FirstOrDefault(b => b.UserId == uId  && b.FlightId == id);
+            Console.WriteLine("********" + booking + "********");
+            if (booking != null)
+            {
+                _db.Bookings.Remove(booking);
+                _db.SaveChanges();
+            }   
+              return RedirectToAction("bookingList");
         }
     }
 }

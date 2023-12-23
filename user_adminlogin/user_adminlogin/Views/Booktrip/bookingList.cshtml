@@ -1,15 +1,10 @@
-﻿@model IEnumerable<user_adminlogin.Models.Flight>
+﻿@model List<Flight>  
 @{
-    ViewData["Title"] = "Flight";
+    ViewData["Title"] = "My Flights";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="container">
-
     <h2 class="text-white">@ViewData["Title"]</h2>
-
-    <a asp-controller="AddFlight" asp-action="AddFlight" class="btn btn-primary">Add Flight</a>
-
     <table class="table">
         <thead>
             <tr class="text-white">
@@ -24,7 +19,7 @@
         </thead>
         <tbody>
             @foreach (var flight in Model)
-   {
+            {
                 <tr class="text-white">
                     <td>@flight.flight_Name</td>
                     <td>@flight.Departure</td>
@@ -33,8 +28,7 @@
                     <td>@flight.Departure_time</td>
                     <td>@flight.Arrival_time</td>
                     <td>
-                        <a asp-controller="AddFlight" asp-action="UpdateFlight" asp-route-id="@flight.Id" class="btn btn-warning">Update</a>
-                        <a asp-controller="AddFlight" asp-action="Deleteflight" asp-route-id="@flight.Id" class="btn btn-danger">Delete</a>
+                        <a asp-controller="Booktrip" asp-action="cancelFlight" asp-route-id="@flight.Id" class="btn btn-warning" >Cancel Flight</a>
                     </td>
                 </tr>
             }

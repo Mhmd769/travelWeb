@@ -1,1 +1,38 @@
-﻿
+﻿@model IEnumerable<Flight> 
+@{
+    ViewData["Title"] = "Flights";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h1 id="exist"></h1>
+    <h2 class="text-white">@ViewData["Title"]</h2>
+    <table class="table">
+        <thead>
+            <tr class="text-white">
+                <th>Flight Name</th>
+                <th>Departure</th>
+                <th>Destenation</th>
+                <th>Date</th>
+                <th>Departure_time</th>
+                <th>Arrival_time</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Flight flight in Model)
+            {
+                <tr class="text-white">
+                    <td>@flight.flight_Name</td>
+                    <td>@flight.Departure</td>
+                    <td>@flight.Destenation</td>
+                    <td>@flight.flight_date</td>
+                    <td>@flight.Departure_time</td>
+                    <td>@flight.Arrival_time</td>
+                    <td>
+                        <a class="btn btn-warning" asp-controller="Booktrip" asp-action="bookNow" asp-route-id="@flight.Id" >Book now</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
