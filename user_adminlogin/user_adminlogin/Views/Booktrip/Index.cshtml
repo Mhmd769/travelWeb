@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container">
-    <h1 id="exist"></h1>
     <h2 class="text-white">@ViewData["Title"]</h2>
     <table class="table">
         <thead>
@@ -22,6 +21,7 @@
             @foreach (Flight flight in Model)
             {
                 <tr class="text-white">
+                    <td>@flight.Id</td>
                     <td>@flight.flight_Name</td>
                     <td>@flight.Departure</td>
                     <td>@flight.Destenation</td>
