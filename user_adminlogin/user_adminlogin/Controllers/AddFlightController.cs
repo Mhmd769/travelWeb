@@ -33,7 +33,7 @@ public class AddFlightController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult AddFlight(Flight flight)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             try
             {
@@ -64,7 +64,7 @@ public class AddFlightController : Controller
     [HttpPost]
     public IActionResult UpdateFlight(Flight updatedFlight)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             try
             {
