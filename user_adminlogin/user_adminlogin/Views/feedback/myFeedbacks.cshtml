@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Feedback>
 @{
-    ViewData["Title"] = "Feedbacks";
+    ViewData["Title"] = "My Feedbacks";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -10,28 +10,29 @@
         height: 700px;
         background-color: white;
         border-radius: 2%;
-        border:none ;
+        border: none;
         margin: 20px auto;
         overflow: hidden;
-        margin-top:0;
-        display:flex ;
-        justify-content:center;
-        overflow:scroll;
+        margin-top: 0;
+        display: flex;
+        justify-content: center;
+        overflow: scroll;
     }
 
     .editable-content {
-       padding:5% ;
-       width:100% ;
+        padding: 5%;
+        width: 100%;
     }
 
-    #myfeedback {
-        margin-left:21% ;
-        margin-bottom:0;
+    #back {
+        width:150px ;
+        margin-left: 21%;
+        margin-bottom: 2px;
+
     }
 </style>
 <h2 class="text-white" style="text-align:center; margin:10px;">@ViewData["Title"]</h2>
-<a asp-controller="Feedback" asp-action="myFeedbacks" class="btn btn-primary" id="myfeedback">My Feedbacks</a>
-<a asp-controller="Feedback" asp-action="Add" class="btn btn-warning">Add a feedback</a>
+<a asp-controller="Feedback" asp-action="Index" class="btn btn-warning" id="back"> << back</a>
 <div class="circle-container" >
     <div class="editable-content">
         @foreach (Feedback feedback in Model)
@@ -46,21 +47,22 @@
                     {
                         <p>User not available</p>
 
-                        
+
                     }
                     <div>
-                    <p style=" margin-right:5px; color:gray;">Rating:</p> 
-                    <span style="color:gray;">@feedback.Rate /5</span>
+                        <p style=" margin-right:5px; color:gray;">Rating:</p>
+                        <span style="color:gray;">@feedback.Rate /5</span>
                     </div>
-            </div>
+                </div>
                 <p style="align-self:flex-start; text-align:left">
-                @feedback.feedback_details
-            </p>
+                    @feedback.feedback_details
+                </p>
+                <div>
+                <a asp-controller="Feedback" asp-action="editFeedback" asp-route-Id="@feedback.Id" class="btn btn-primary" id="myfeedback">Edit</a>
+                    <a asp-controller="Feedback" asp-action="deleteFeedback" asp-route-Id="@feedback.Id" class="btn btn-warning">Delete</a>
+                </div>
             </div>
             <hr>
         }
-
-
-
     </div>
 </div>
