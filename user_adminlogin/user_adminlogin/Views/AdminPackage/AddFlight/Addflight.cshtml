@@ -1,0 +1,76 @@
+﻿@model Flight
+
+<section class="trip_section layout_padding" id="bookTrip">
+    <div class="container">
+        <div class="box container-bg">
+            <div class="img-box">
+                <img src="images/form-img.png" alt="">
+            </div>
+            <div class="form_container">
+                <form asp-controller="AddFlight" asp-action="Addflight" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="inputflight_Name" asp-for="flight_Name" placeholder="Flight Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="inputDeparture" asp-for="Departure" placeholder="Departure">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="inputDestenation" asp-for="Destenation" placeholder="Destenation">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
+                            </div>
+                            <input type="date" class="form-control" id="inputdate" asp-for="flight_date" placeholder="Set A Date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
+                            </div>
+                            <input type="time" class="form-control" id="inputDeparture_time" asp-for="Departure_time" placeholder="Departure_time">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
+                            </div>
+                            <input type="time" class="form-control" id="inputArrival_time" asp-for="Arrival_time" placeholder="Arrival_time">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary align-content-center">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

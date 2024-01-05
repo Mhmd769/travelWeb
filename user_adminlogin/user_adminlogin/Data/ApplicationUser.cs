@@ -9,6 +9,7 @@ namespace user_adminlogin.Data
         public string? ProfilePicture { get; set; }
         public List<Booking> UserFlights { get; set; }
         public List<Feedback> Feedbacks { get; set; }
+        public List<user_package> Packages { get; set; }
 
     }
 }

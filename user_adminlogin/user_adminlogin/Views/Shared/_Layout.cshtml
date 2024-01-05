@@ -65,6 +65,12 @@
                                         <a class="nav-link " asp-controller="Booktrip" asp-action="bookingList">My Flight</a>
                                     </li>
                                 }
+                                @if (User.IsInRole("User"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link " asp-controller="Package" asp-action="BookPackage">My Packages</a>
+                                    </li>
+                                }
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <li class="nav-item">

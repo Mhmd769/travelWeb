@@ -16,7 +16,7 @@ namespace user_adminlogin.Data
 
         public DbSet<Feedback> Feedback { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-
+        public DbSet<user_package> user_Packages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -54,6 +54,18 @@ namespace user_adminlogin.Data
                 .HasOne(uf => uf.Flight)
                 .WithMany(f => f.UserFlights)
                 .HasForeignKey(uf => uf.FlightId);
+            modelBuilder.Entity<user_package>()
+         .HasKey(up => new { up.UserId, up.PackageId });
+
+            modelBuilder.Entity<user_package>()
+                .HasOne(up => up.User)
+                .WithMany(u => u.Packages)
+                .HasForeignKey(up => up.UserId);
+
+            modelBuilder.Entity<user_package>()
+                .HasOne(up => up.package)
+                .WithMany(p => p.Packages)
+                .HasForeignKey(up => up.PackageId);
         }
 
 

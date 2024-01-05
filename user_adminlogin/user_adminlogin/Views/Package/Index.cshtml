@@ -1,63 +1,32 @@
 ﻿@model List<Package>
+@{
+    ViewData["Title"] = "My packages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+<h2 class="text-white">@ViewData["Title"]</h2>
+<table class="table">
+    <thead>
+        <tr class="text-white">
+            <th>Package Details</th>
+            <th>Flight</th>
+            <th>Price</th>
+            <th>Action</th>
 
-<section class="package_section" id="package">
-    <div class="container">
-        <div class="box container-bgpack">
-            <h2>OUR PACKAGES</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Package Details</th>
-                        <th>Flight</th>
-                        <th>Price</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+        </tr>
+    </thead>
+    <tbody>
                     @foreach (var package in Model)
                     {
-                        <tr>
+            <tr class="text-white">
                             <td>@package.Package_details</td>
                             <td>@package.Flight?.flight_Name</td>
                             <td>$@package.Price</td>
-                            <td><a href="#" class="btn-book">Book Now</a></td>
+                <td><a asp-controller="Package" asp-action="bookNow" asp-route-id="@package.Id" class="btn btn-warning">Book Now</a></td>
                         </tr>
                     }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+    </tbody>
+</table>
+</div>
 
-<style>
-    /* Your CSS styling remains the same */
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    th, td {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f4f4f4;
-    }
-
-    .btn-book {
-        display: inline-block;
-        padding: 10px 20px;
-        background:blue;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
-
-        .btn-book:hover {
-            background-color: #333;
-        }
-</style>
+<
