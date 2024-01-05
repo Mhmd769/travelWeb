@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<user_adminlogin.Models.Feedback>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr class="text-white">
+                <th>User</th>
+                <th>Flight</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Reply</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var feedback in Model)
+            {
+                <tr class="text-white">
+                    <td>@feedback.User.name</td>
+                    <td>@feedback.Flight.flight_Name</td>
+                    <td>@feedback.Rate</td>
+                    <td>@feedback.feedback_details</td>
+                    <td>
+                        <a class="btn btn-primary" href="https://mail.google.com/mail/?view=cm&fs=1&to=@feedback.User.Email&su=Reply%20to%20Your%20Feedback" target="_blank">Reply</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

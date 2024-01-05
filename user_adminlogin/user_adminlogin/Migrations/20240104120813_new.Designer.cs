@@ -12,7 +12,7 @@ using user_adminlogin.Data;
 namespace user_adminlogin.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231218190532_new")]
+    [Migration("20240104120813_new")]
     partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -213,6 +213,7 @@ namespace user_adminlogin.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -285,6 +286,9 @@ namespace user_adminlogin.Migrations
 
                     b.Property<string>("Arrival_time")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("BookedPeople")
+                        .HasColumnType("int");
 
                     b.Property<string>("Departure")
                         .IsRequired()

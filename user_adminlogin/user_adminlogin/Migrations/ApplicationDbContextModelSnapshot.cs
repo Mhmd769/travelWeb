@@ -211,6 +211,7 @@ namespace user_adminlogin.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -283,6 +284,9 @@ namespace user_adminlogin.Migrations
 
                     b.Property<string>("Arrival_time")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("BookedPeople")
+                        .HasColumnType("int");
 
                     b.Property<string>("Departure")
                         .IsRequired()

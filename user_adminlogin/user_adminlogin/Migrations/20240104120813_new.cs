@@ -28,7 +28,7 @@ namespace user_adminlogin.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -61,6 +61,7 @@ namespace user_adminlogin.Migrations
                     Departure = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Arrival_time = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Departure_time = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BookedPeople = table.Column<int>(type: "int", nullable: true),
                     flight_date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>

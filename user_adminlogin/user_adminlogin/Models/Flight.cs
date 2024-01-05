@@ -16,6 +16,7 @@ namespace user_adminlogin.Models
         public string Departure { get; set; }
         public string? Arrival_time { get; set; }
         public string? Departure_time { get; set; }
+        public int? BookedPeople { get; set; }
 
         public DateTime? flight_date { get; set; }
 

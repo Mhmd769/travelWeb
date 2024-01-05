@@ -19,6 +19,7 @@
                 <th>Date</th>
                 <th>Departure_time</th>
                 <th>Arrival_time</th>
+                <th>Booked People</th>
 
             </tr>
         </thead>
@@ -32,6 +33,7 @@
                     <td>@flight.flight_date</td>
                     <td>@flight.Departure_time</td>
                     <td>@flight.Arrival_time</td>
+                    <td>@flight.BookedPeople</td>
                     <td>
                         <a asp-controller="AddFlight" asp-action="UpdateFlight" asp-route-id="@flight.Id" class="btn btn-warning">Update</a>
                         <a asp-controller="AddFlight" asp-action="Deleteflight" asp-route-id="@flight.Id" class="btn btn-danger">Delete</a>

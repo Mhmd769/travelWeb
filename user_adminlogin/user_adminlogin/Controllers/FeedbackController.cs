@@ -84,7 +84,7 @@ namespace Flight_dbproject.Controllers
             feedback.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             _db.Feedback.Update(feedback);
             _db.SaveChanges();
-            return RedirectToAction("myFeedback");
+            return RedirectToAction("myFeedbacks");
         }
         public IActionResult deleteFeedback(int Id)
         {

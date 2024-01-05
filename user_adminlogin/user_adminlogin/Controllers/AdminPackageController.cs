@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using user_adminlogin.Data;
 using user_adminlogin.Models;
-using System.Linq;
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace user_adminlogin.Controllers
 {
@@ -19,12 +22,11 @@ namespace user_adminlogin.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var packages = _context.Packages.FromSqlRaw("SELECT * FROM Packages").ToList();
+            var packages = await _context.Packages.FromSqlRaw("EXEC GetPackages").ToListAsync();
             return View(packages);
         }
-
 
         [HttpGet]
         public IActionResult AddPackage()
@@ -40,7 +42,7 @@ namespace user_adminlogin.Controllers
             {
                 try
                 {
-                    _context.Database.ExecuteSqlInterpolated($"INSERT INTO Packages (Package_details, Price, FlightId) VALUES ({package.Package_details}, {package.Price}, {package.FlightId})");
+                    _context.Database.ExecuteSqlInterpolated($"EXEC AddPackage {package.Package_details}, {package.Price}, {package.FlightId}");
 
                     return RedirectToAction("Index");
                 }
@@ -53,19 +55,22 @@ namespace user_adminlogin.Controllers
             }
 
             // If ModelState is not valid, return back to the form with validation errors
-            ViewData["FlightIds"] = new SelectList(_context.Flights.Select(f => f.Id).ToList(), "Id", "flight_Name");
+            ViewData["Flights"] = new SelectList(_context.Flights.Select(f => new { Id = f.Id, Name = f.flight_Name }).ToList(), "Id", "Name");
             return View(package);
         }
 
         [HttpGet]
         public IActionResult UpdatePackage(int id)
         {
-            var package = _context.Packages.Find(id);
+            // Use AsEnumerable to execute the raw SQL query and materialize the results
+            var package = _context.Packages.FromSqlRaw($"EXEC GetPackageById {id}").AsEnumerable().FirstOrDefault();
+
             if (package == null)
             {
                 return NotFound();
             }
 
+            ViewData["Flights"] = new SelectList(_context.Flights.Select(f => new { Id = f.Id, Name = f.flight_Name }).ToList(), "Id", "Name");
             return View(package);
         }
 
@@ -76,7 +81,7 @@ namespace user_adminlogin.Controllers
             {
                 try
                 {
-                    _context.Database.ExecuteSqlInterpolated($"UPDATE Packages SET Package_details = {package.Package_details}, Price = {package.Price}, FlightId = {package.FlightId} WHERE Id = {package.Id}");
+                    _context.Database.ExecuteSqlInterpolated($"EXEC UpdatePackage {package.Id}, {package.Package_details}, {package.Price}, {package.FlightId}");
 
                     return RedirectToAction("Index");
                 }
@@ -89,13 +94,17 @@ namespace user_adminlogin.Controllers
             }
 
             // If ModelState is not valid, return back to the form with validation errors
+            ViewData["Flights"] = new SelectList(_context.Flights.Select(f => new { Id = f.Id, Name = f.flight_Name }).ToList(), "Id", "Name");
             return View(package);
         }
+
 
         [HttpGet]
         public IActionResult DeletePackage(int id)
         {
-            var package = _context.Packages.Find(id);
+            // Materialize the results using AsEnumerable()
+            var package = _context.Packages.FromSqlRaw($"EXEC GetPackageById {id}").AsEnumerable().FirstOrDefault();
+
             if (package == null)
             {
                 return NotFound();
@@ -106,17 +115,12 @@ namespace user_adminlogin.Controllers
 
         [HttpPost, ActionName("DeletePackage")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePackageConfirmed(Package package)
+        public IActionResult DeletePackageConfirmed(int id)
         {
-            var packagetoDelete = _context.Packages.Find(package.Id);
-            if (packagetoDelete == null)
-            {
-                return NotFound();
-            }
-
             try
             {
-                _context.Database.ExecuteSqlInterpolated($"DELETE FROM Packages WHERE Id = {package.Id}");
+                // No need to fetch the package before deleting
+                _context.Database.ExecuteSqlInterpolated($"EXEC DeletePackage {id}");
 
                 return RedirectToAction("Index");
             }
@@ -127,5 +131,6 @@ namespace user_adminlogin.Controllers
                 return RedirectToAction("Index");
             }
         }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Flight> 
+﻿ @model IEnumerable<Flight> 
 @{
     ViewData["Title"] = "Flights";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,8 +21,7 @@
             @foreach (Flight flight in Model)
             {
                 <tr class="text-white">
-                    <td>@flight.Id</td>
-                    <td>@flight.flight_Name</td>
+                    <td>@flight.Id - @flight.flight_Name</td>
                     <td>@flight.Departure</td>
                     <td>@flight.Destenation</td>
                     <td>@flight.flight_date</td>
