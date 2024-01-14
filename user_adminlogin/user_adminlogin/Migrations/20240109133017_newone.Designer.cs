@@ -12,8 +12,8 @@ using user_adminlogin.Data;
 namespace user_adminlogin.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240104120813_new")]
-    partial class @new
+    [Migration("20240109133017_newone")]
+    partial class newone
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -341,6 +341,21 @@ namespace user_adminlogin.Migrations
                     b.ToTable("Packages");
                 });
 
+            modelBuilder.Entity("user_adminlogin.Models.user_package", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PackageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "PackageId");
+
+                    b.HasIndex("PackageId");
+
+                    b.ToTable("user_Packages");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -441,9 +456,30 @@ namespace user_adminlogin.Migrations
                     b.Navigation("Flight");
                 });
 
+            modelBuilder.Entity("user_adminlogin.Models.user_package", b =>
+                {
+                    b.HasOne("user_adminlogin.Models.Package", "package")
+                        .WithMany("Packages")
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("user_adminlogin.Data.ApplicationUser", "User")
+                        .WithMany("Packages")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("package");
+                });
+
             modelBuilder.Entity("user_adminlogin.Data.ApplicationUser", b =>
                 {
                     b.Navigation("Feedbacks");
+
+                    b.Navigation("Packages");
 
                     b.Navigation("UserFlights");
                 });
@@ -455,6 +491,11 @@ namespace user_adminlogin.Migrations
                     b.Navigation("Packages");
 
                     b.Navigation("UserFlights");
+                });
+
+            modelBuilder.Entity("user_adminlogin.Models.Package", b =>
+                {
+                    b.Navigation("Packages");
                 });
 #pragma warning restore 612, 618
         }

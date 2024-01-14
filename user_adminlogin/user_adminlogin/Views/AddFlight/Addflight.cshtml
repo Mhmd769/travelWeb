@@ -38,53 +38,39 @@
                             <input type="text" class="form-control" id="inputDestenation" asp-for="Destenation" placeholder="Destenation">
                         </div>
                     </div>
-                   <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <img src="images/location.png" alt="">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
                             </div>
+                            <input type="date" class="form-control" id="inputdate" asp-for="flight_date" placeholder="Set A Date">
                         </div>
-                        <input type="date" class="form-control" id="inputdate" asp-for="flight_date" placeholder="Set A Date" required>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <img src="images/location.png" alt="">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
                             </div>
+                            <input type="time" class="form-control" id="inputDeparture_time" asp-for="Departure_time" placeholder="Departure_time">
                         </div>
-                        <input type="time" class="form-control" id="inputDeparture_time" asp-for="Departure_time" placeholder="Departure_time" onchange="validateTimes()">
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <img src="images/location.png" alt="">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img src="images/location.png" alt="">
+                                </div>
                             </div>
+                            <input type="time" class="form-control" id="inputArrival_time" asp-for="Arrival_time" placeholder="Arrival_time">
                         </div>
-                        <input type="time" class="form-control" id="inputArrival_time" asp-for="Arrival_time" placeholder="Arrival_time" onchange="validateTimes()">
                     </div>
-                    <span id="timeError" style="color: red;"></span>
-                </div>
-                    <button type="submit" id="submitButton" class="btn btn-primary align-content-center">Submit</button>
-            </form>
-            </section>
-<script>
-    function validateTimes() {
-        var departureTime = document.getElementById("inputDeparture_time").value;
-        var arrivalTime = document.getElementById("inputArrival_time").value;
-        var timeError = document.getElementById("timeError");
-        var submitButton = document.getElementById("submitButton");
-
-        if (arrivalTime < departureTime) {
-            timeError.innerHTML = "Arrival time cannot be before departure time.";
-            submitButton.disabled = true;
-        } else {
-            timeError.innerHTML = "";
-            submitButton.disabled = false;
-        }
-    }
-</script>
+                    <button type="submit" class="btn btn-primary align-content-center">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

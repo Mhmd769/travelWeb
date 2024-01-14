@@ -20,7 +20,7 @@ namespace user_adminlogin.Models
 
         public DateTime? flight_date { get; set; }
 
-        // Navigation property for the one-to-many relationship
+        // Navigation p roperty for the one-to-many relationship
         public List<Package>? Packages { get; set; }
         public List<Feedback>? Feedbacks { get; set; }
         public List<Booking>? UserFlights { get; set; }

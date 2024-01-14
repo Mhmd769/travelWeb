@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace user_adminlogin.Migrations
 {
-    public partial class @new : Migration
+    public partial class newone : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -248,6 +248,30 @@ namespace user_adminlogin.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "user_Packages",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PackageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_Packages", x => new { x.UserId, x.PackageId });
+                    table.ForeignKey(
+                        name: "FK_user_Packages_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_Packages_Packages_PackageId",
+                        column: x => x.PackageId,
+                        principalTable: "Packages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -306,6 +330,11 @@ namespace user_adminlogin.Migrations
                 name: "IX_Packages_FlightId",
                 table: "Packages",
                 column: "FlightId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_Packages_PackageId",
+                table: "user_Packages",
+                column: "PackageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -332,13 +361,16 @@ namespace user_adminlogin.Migrations
                 name: "Feedback");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "user_Packages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Packages");
 
             migrationBuilder.DropTable(
                 name: "Flights");
