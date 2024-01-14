@@ -5,33 +5,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
+<div class="container mt-4">
     <h2 class="text-white">@ViewData["Title"]</h2>
 
-    <a asp-controller="AdminPackage" asp-action="AddPackage" class="btn btn-primary">Add Package</a>
+    <a asp-controller="AdminPackage" asp-action="AddPackage" class="btn btn-primary mb-3">Add Package</a>
 
-    <table class="table">
-        <thead>
-            <tr class="text-white">
-                <th>Flight_ID</th>
-                <th>Package Details</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var package in Model)
-            {
-                <tr class="text-white">
-                    <td>@package.FlightId</td>
-                    <td>@package.Package_details</td>
-                    <td>$@package.Price</td>
-                    <td>
-                        <a asp-controller="AdminPackage" asp-action="UpdatePackage" asp-route-id="@package.Id" class="btn btn-warning">Update</a> 
-                        <a asp-controller="AdminPackage" asp-action="DeletePackage" asp-route-id="@package.Id" class="btn btn-danger">Delete</a>
-                    </td>
+    <div class="table-responsive">
+        <table class="table table-bordered table-dark">
+            <thead>
+                <tr>
+                    <th>Flight ID</th>
+                    <th>Package Details</th>
+                    <th>Price</th>
+                    <th>Booked Number</th>
+                    <th>Total Price on this Pack</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var package in Model)
+                {
+                    <tr>
+                        <td>@package.FlightId</td>
+                        <td>@package.Package_details</td>
+                        <td>$@package.Price</td>
+                        <td>@package.bookedPackage</td>
+                        <td>$@package.total_Price</td>
+                        <td>
+                            <a asp-controller="AdminPackage" asp-action="UpdatePackage" asp-route-id="@package.Id" class="btn btn-warning btn-sm">Update</a>
+                            <a asp-controller="AdminPackage" asp-action="DeletePackage" asp-route-id="@package.Id" class="btn btn-danger btn-sm ml-2">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

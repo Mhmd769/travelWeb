@@ -13,6 +13,11 @@ namespace user_adminlogin.Models
         [Required]
         public int Price {  get; set; }
 
+        public int? bookedPackage { get; set; }
+
+        public int? total_Price { get; set; }
+        
+
         // Navigation property for the one-to-many relationship
         public int FlightId { get; set; }
         public Flight? Flight { get; set; }

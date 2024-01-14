@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Net.Security;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using user_adminlogin.Data;
 using user_adminlogin.Models;
 
@@ -20,56 +24,49 @@ namespace Flight_dbproject.Controllers
             _userManager = userManager;
             _db = db;
         }
+
         public IActionResult Index()
         {
             var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var booked = from b in _db.user_Packages
-                         where b.UserId == uId
-                         select b.package;
-                var package = from row in _db.Packages
-                              select row;
-                IEnumerable<Package> PackageList = package.Except(booked).ToList();
-                return View(PackageList);
-            
+
+            var packages = _db.Packages.FromSqlInterpolated($"EXEC GetAvailablePackages {uId}").ToList();
+
+            return View(packages);
         }
+
         public async Task<IActionResult> bookNow(int id)
         {
             var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                ApplicationUser user = await _userManager.FindByIdAsync(uId);
-                var package = _db.Packages.Find(id);
-                var userPackages = new user_package
-                {
-                    UserId = uId,
-                    User = user,
-                    PackageId = id,
-                    package = package
-                };
-                _db.user_Packages.Add(userPackages);
-                _db.SaveChanges();
-                return RedirectToAction("BookPackage");
-            }
-        public ActionResult BookPackage()
-        {
 
-            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var bookings = from row in _db.user_Packages
-                           where row.UserId == id
-                           select row.package;
-            List<Package> bookingList = bookings.ToList();
-            return View(bookingList);
+            var userIdParam = new SqlParameter("@UserId", SqlDbType.NVarChar) { Value = uId };
+            var packageIdParam = new SqlParameter("@PackageId", SqlDbType.Int) { Value = id };
+
+            await _db.Database.ExecuteSqlInterpolatedAsync($"EXEC BookPackage {userIdParam}, {packageIdParam}");
+
+            return RedirectToAction("BookPackage");
         }
+
+        public ActionResult BookPackage()
+        {   
+            var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var userIdParam = new SqlParameter("@UserId", SqlDbType.NVarChar) { Value = uId };
+
+            var packages = _db.Packages.FromSqlInterpolated($"EXEC GetUserBookedPackages {userIdParam}").ToList();
+
+            return View(packages);
+        }
+
         public ActionResult cancelPackage(int id)
         {
             var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var booking = _db.user_Packages.FirstOrDefault(b => b.UserId == uId && b.PackageId == id);
-            Console.WriteLine("********" + booking + "********");
-            if (booking != null)
-            {
-                _db.user_Packages.Remove(booking);
-                _db.SaveChanges();
-            }
+
+            var userIdParam = new SqlParameter("@UserId", SqlDbType.NVarChar) { Value = uId };
+            var packageIdParam = new SqlParameter("@PackageId", SqlDbType.Int) { Value = id };
+
+            _db.Database.ExecuteSqlInterpolated($"EXEC CancelUserPackage {userIdParam}, {packageIdParam}");
+
             return RedirectToAction("BookPackage");
         }
     }
 }
-

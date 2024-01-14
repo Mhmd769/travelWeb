@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Net.Security;
 using System.Security.Claims;
@@ -34,33 +36,59 @@ namespace Flight_dbproject.Controllers
         }
         public async Task<IActionResult> bookNow(int id)
         {
-            var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var exist = from b in _db.Bookings
-                        where b.FlightId == id && b.UserId == uId
-                        select b;
-            if (exist.Any())
+            try
             {
+                var uId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var exist = from b in _db.Bookings
+                            where b.FlightId == id && b.UserId == uId
+                            select b;
+
+                if (exist.Any())
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ApplicationUser user = await _userManager.FindByIdAsync(uId);
+                    var flight = _db.Flights.Find(id);
+                    var booking = new Booking
+                    {
+                        UserId = uId,
+                        User = user,
+                        FlightId = id,
+                        Flight = flight
+                    };
+
+                    _db.Bookings.Add(booking);
+                    _db.SaveChanges();
+                    return RedirectToAction("bookingList");
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 51000)
+                {
+                    // Display a user-friendly error message for double booking
+                    ModelState.AddModelError("", "User cannot book two flights on the same date.");
+
+                    // Add this line to include JavaScript in your view
+                    TempData["ShowAlert"] = true;
+                }
+                else
+                {
+                    // Handle other database update exceptions as needed
+                    // Log the exception for further investigation
+                    // ...
+
+                    TempData["ShowAlert"] = false;
+
+                    // If it's not a double booking exception, don't set ViewBag.ShowAlert to true
+                }
+
                 return RedirectToAction("Index");
             }
-            else
-            {
-                ApplicationUser user = await _userManager.FindByIdAsync(uId);
-                /* var flight = from f in _db.Flights
-                                 where f.Id == flightId
-                                 select f;*/
-                var flight = _db.Flights.Find(id);
-                var booking = new Booking
-                {
-                    UserId = uId,
-                    User = user,
-                    FlightId = id,
-                    Flight = flight
-                };
-                _db.Bookings.Add(booking);
-                _db.SaveChanges();
-                return RedirectToAction("bookingList");
-            }
         }
+
         public ActionResult bookingList()
         {
             

@@ -1,34 +1,42 @@
-﻿ @model IEnumerable<Flight> 
+﻿@model IEnumerable<Flight>
 @{
     ViewData["Title"] = "Flights";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container">
+
+<div class="container mt-4">
     <h2 class="text-white">@ViewData["Title"]</h2>
-    <table class="table">
+    @if (TempData["ShowAlert"] != null && (bool)TempData["ShowAlert"])
+    {
+        <div class="alert alert-danger" role="alert">
+            User cannot book two flights on the same date.
+        </div>
+    }
+
+    <table class="table table-bordered table-dark">
         <thead>
-            <tr class="text-white">
+            <tr>
                 <th>Flight Name</th>
                 <th>Departure</th>
-                <th>Destenation</th>
+                <th>Destination</th>
                 <th>Date</th>
-                <th>Departure_time</th>
-                <th>Arrival_time</th>
-
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (Flight flight in Model)
             {
-                <tr class="text-white">
-                    <td>@flight.Id - @flight.flight_Name</td>
+                <tr>
+                    <td>@flight.flight_Name</td>
                     <td>@flight.Departure</td>
                     <td>@flight.Destenation</td>
                     <td>@flight.flight_date</td>
                     <td>@flight.Departure_time</td>
                     <td>@flight.Arrival_time</td>
                     <td>
-                        <a class="btn btn-warning" asp-controller="Booktrip" asp-action="bookNow" asp-route-id="@flight.Id" >Book now</a>
+                        <a class="btn btn-warning" asp-controller="Booktrip" asp-action="bookNow" asp-route-id="@flight.Id">Book Now</a>
                     </td>
                 </tr>
             }
